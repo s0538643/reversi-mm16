@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "settings.h"
+#include "spielbrett.h"
+#include "brettwidget.h"
+#include <QPainter>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -25,4 +28,10 @@ void MainWindow::on_pushButton_3_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
 
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    BrettWidget brettwidget;
+    brettwidget.brett.erzeugeBrett(8);
 }

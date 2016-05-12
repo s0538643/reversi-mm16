@@ -14,10 +14,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    settings.cpp
+    settings.cpp \
+    brettwidget.cpp \
+    spielbrett.cpp
 
 HEADERS  += mainwindow.h \
-    settings.h
+    settings.h \
+    brettwidget.h \
+    spielbrett.h
 
 FORMS    += mainwindow.ui \
     settings.ui

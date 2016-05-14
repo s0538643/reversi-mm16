@@ -27,7 +27,7 @@ void BrettWidget::paintEvent(QPaintEvent *)
     schwarzerStein = Qt::black;
 
     const int size = qMin(this->width(),this->height())-1;
-    const int cells = brett.getGroesse();
+    const int cells = this->brett.getGroesse();
     const int cellSize = size / cells;
 
     painter.scale(1,-1.0);
@@ -56,7 +56,7 @@ void BrettWidget::paintEvent(QPaintEvent *)
     {
         for (int y = 0; y < cells; y++)
         {
-            if (brett.farbe[brett.getPosition(x,y)] == Spielbrett::WEISS)
+            if (this->brett.farbe[this->brett.getPosition(x,y)] == Spielbrett::WEISS)
                 painter.drawEllipse(QPoint(cellSize*x + cellSize/2,cellSize*y + cellSize/2),cellSize/2-2,cellSize/2-2);
         }
     }
@@ -69,9 +69,10 @@ void BrettWidget::paintEvent(QPaintEvent *)
         for (int y = 0; y < cells; y++)
         {
 
-            if (brett.farbe[brett.getPosition(x,y)] == Spielbrett::SCHWARZ)
+            if (this->brett.farbe[this->brett.getPosition(x,y)] == Spielbrett::SCHWARZ)
                 painter.drawEllipse(QPoint(cellSize*x + cellSize/2,cellSize*y + cellSize/2),cellSize/2-2,cellSize/2-2);
         }
     }
 }
+
 

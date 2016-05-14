@@ -19,8 +19,7 @@ public:
 
 
 private:
-    Spielbrett brett;
-    void paintEvent(QPaintEvent *);
+
 
 private slots:
     void on_pushButton_3_clicked();

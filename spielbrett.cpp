@@ -1,13 +1,15 @@
 #include "spielbrett.h"
 
+
 Spielbrett::Spielbrett()
 {
-
+    this->groesse = 8;
 }
 
 
 void Spielbrett::erzeugeBrett(int groesse)
 {
+    this->setGroesse(groesse);
     this->farbe = new Zellen_Farbe[this->getGroesse()*this->getGroesse()];
     SpielPosition position;
     for (int i=0; i<groesse; i++)

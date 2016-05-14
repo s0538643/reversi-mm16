@@ -27,11 +27,12 @@ void MainWindow::on_pushButton_3_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-
+    this->close();
 }
 
 void MainWindow::on_pushButton_clicked()
 {
     BrettWidget brettwidget;
     brettwidget.brett.erzeugeBrett(8);
+    brettwidget.repaint();
 }

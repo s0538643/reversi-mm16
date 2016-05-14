@@ -7,9 +7,13 @@
 
 class BrettWidget : public QWidget
 {
+
 public:
     BrettWidget();
     Spielbrett brett;
+
+
+
 private:
     void paintEvent(QPaintEvent *);
 

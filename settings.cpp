@@ -12,3 +12,10 @@ Settings::~Settings()
 {
     delete ui;
 }
+
+
+void Settings::on_horizontalSlider_sliderMoved(int position)
+{
+    this->ui->feldgroesse->setText(QString::number(position));
+}
+

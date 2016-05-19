@@ -32,7 +32,10 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {
-    BrettWidget brettwidget;
-    brettwidget.brett.erzeugeBrett(8);
-    brettwidget.repaint();
+    BrettWidget *brettwidget = new BrettWidget(this);
+
+    brettwidget->brett.erzeugeBrett(8);
+    brettwidget->resize(500, 500);
+    brettwidget->show();
+    //brettwidget->activateWindow();
 }

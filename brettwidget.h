@@ -2,20 +2,23 @@
 #define BRETTWIDGET_H
 
 #include "spielbrett.h"
+
 #include <QPainter>
 #include <QWidget>
+#include <QBoxLayout>
+
 
 class BrettWidget : public QWidget
 {
-
+    Q_OBJECT
 public:
-    BrettWidget();
+    explicit BrettWidget(QWidget *parent = 0);
     Spielbrett brett;
 
 
 
 private:
-    void paintEvent(QPaintEvent *);
+   void paintEvent(QPaintEvent *);
 
 };
 

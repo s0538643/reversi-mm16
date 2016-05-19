@@ -3,9 +3,10 @@
 #include <QPainter>
 #include <QObject>
 
-BrettWidget::BrettWidget()
-{
+BrettWidget::BrettWidget(QWidget *parent)
+    : QWidget(parent, Qt::Window)
 
+{
 }
 
 void BrettWidget::paintEvent(QPaintEvent *)

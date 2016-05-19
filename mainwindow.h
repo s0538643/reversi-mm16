@@ -30,6 +30,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QWidget *brettwidget;
+
 };
 
 #endif // MAINWINDOW_H

@@ -25,3 +25,5 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     settings.ui
+
+DISTFILES +=

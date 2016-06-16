@@ -1,6 +1,8 @@
 #ifndef SPIELBRETT_H
 #define SPIELBRETT_H
 
+#include <list>
+
 
 class Spielbrett
 {
@@ -19,20 +21,27 @@ class Spielbrett
     };
 
     Spielbrett();
-    void erzeugeBrett(int groesse);
+    void erzeugeBrett(int groesse, int style);
     void setGroesse(int a);
     int getGroesse();
     int getPosition(SpielPosition a);
     int getPosition(int x, int y);
-
+    bool istZelleBelegt(SpielPosition position);
+    Zellen_Farbe getGegnerFarbe(Zellen_Farbe spieler);
+    bool Zug(SpielPosition position, Zellen_Farbe spieler, bool fuehreAus);
     Zellen_Farbe getFarbe(SpielPosition a);
+    void setFarbe(SpielPosition a, Zellen_Farbe);
+    int zaehleSteine(Zellen_Farbe farbe);
+    int getBrettstyle();
+    int setBrettstyle(int style);
+    std::list<SpielPosition> getValideZuege(Zellen_Farbe spieler);
 
     Zellen_Farbe * farbe;
 
 private:
 
-    //int SpielPosition[16][16];
     int groesse;
+    int brettStyle;
 
 };
 

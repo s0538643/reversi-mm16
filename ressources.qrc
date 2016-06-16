@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>styles/Black_Viking.png</file>
+        <file>styles/White_Viking.png</file>
+    </qresource>
+    <qresource prefix="/sounds"/>
+    <qresource prefix="/languages"/>
+</RCC>

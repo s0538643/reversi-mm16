@@ -1,5 +1,5 @@
 #include "spielbrett.h"
-
+#include <QDebug>
 
 Spielbrett::Spielbrett()
 {
@@ -7,9 +7,11 @@ Spielbrett::Spielbrett()
 }
 
 
-void Spielbrett::erzeugeBrett(int groesse)
+void Spielbrett::erzeugeBrett(int groesse, int style)
 {
+
     this->setGroesse(groesse);
+    this->setBrettstyle(style);
     this->farbe = new Zellen_Farbe[this->getGroesse()*this->getGroesse()];
     SpielPosition position;
     for (int i=0; i<groesse; i++)
@@ -59,4 +61,371 @@ int Spielbrett::getPosition(int x, int y)
 Spielbrett::Zellen_Farbe Spielbrett::getFarbe(SpielPosition a)
 {
     return this->farbe[this->getPosition(a)];
+}
+
+void Spielbrett::setFarbe(SpielPosition position, Zellen_Farbe spielfarbe)
+{
+    this->farbe[this->getPosition(position)] = spielfarbe;
+}
+
+bool Spielbrett::istZelleBelegt(SpielPosition position)
+{
+    return (this->getFarbe(position) != LEER);
+}
+
+Spielbrett::Zellen_Farbe Spielbrett::getGegnerFarbe(Zellen_Farbe spieler)
+{
+    if (spieler == WEISS)
+        return SCHWARZ;
+    else if (spieler == SCHWARZ)
+        return WEISS;
+    else
+        return LEER;
+
+}
+
+bool Spielbrett::Zug(SpielPosition position, Zellen_Farbe spieler, bool fuehreAus)
+{
+    if (this->istZelleBelegt(position)) {
+        return false;
+    }
+
+    Zellen_Farbe gegner = this->getGegnerFarbe(spieler);
+
+    bool zulaessig = false;
+
+    //pruefe nach links
+    {
+        bool hatGegner = false;
+        for (int x = position.x-1; x >= 0; x--)
+        {
+            SpielPosition platzhalter = {x,position.y};
+            Zellen_Farbe platzhalterFarbe = this->getFarbe(platzhalter);
+            //leere Zelle
+            if (platzhalterFarbe == LEER)
+                break;
+            //Gegner Zelle
+            else if (platzhalterFarbe == gegner)
+                hatGegner = true;
+            //Found friendly cell
+            else
+            {
+                if (hatGegner)
+                {
+                    zulaessig = true;
+                    if (fuehreAus)
+                    {
+                        for (int x2 = position.x; x2 >= platzhalter.x; x2--)
+                        {
+                            SpielPosition temp = {x2, position.y};
+                            this->setFarbe(temp, spieler);
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    //pruefe nach rechts
+    {
+        bool hatGegner = false;
+        for (int x = position.x+1; x < this->getGroesse(); x++)
+        {
+            SpielPosition platzhalter = {x,position.y};
+            Zellen_Farbe platzhalterFarbe = this->getFarbe(platzhalter);
+            if (platzhalterFarbe == LEER)
+                break;
+            else if (platzhalterFarbe == gegner)
+                hatGegner = true;
+            else
+            {
+                if (hatGegner)
+                {
+                    zulaessig = true;
+                    if (fuehreAus)
+                    {
+                    for (int x2 = position.x; x2 <= platzhalter.x; x2++)
+                    {
+                        SpielPosition temp = {x2, position.y};
+                        this->setFarbe(temp, spieler);
+                    }
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    //pruefe nach oben
+    {
+        bool hatGegner = false;
+        for (int y = position.y+1; y < this->getGroesse(); y++)
+        {
+            SpielPosition platzhalter = {position.x,y};
+            Zellen_Farbe platzhalterFarbe = this->getFarbe(platzhalter);
+            if (platzhalterFarbe == LEER)
+                break;
+            else if (platzhalterFarbe == gegner)
+                hatGegner = true;
+            else
+            {
+                if (hatGegner)
+                {
+                    zulaessig = true;
+                    if (fuehreAus)
+                    {
+                    for (int y2 = position.y; y2 <= platzhalter.y; y2++)
+                    {
+                        SpielPosition temp = {position.x, y2};
+                        this->setFarbe(temp, spieler);
+                    }
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    //pruefe nach unten
+    {
+        bool hatGegner = false;
+        for (int y = position.y-1; y >= 0; y--)
+        {
+            SpielPosition platzhalter = {position.x,y};
+            Zellen_Farbe platzhalterFarbe = this->getFarbe(platzhalter);
+            if (platzhalterFarbe == LEER)
+                break;
+            else if (platzhalterFarbe == gegner)
+                hatGegner = true;
+            else
+            {
+                if (hatGegner)
+                {
+                    zulaessig = true;
+                    if (fuehreAus)
+                    {
+                    for (int y2 = position.y; y2 >= platzhalter.y; y2--)
+                    {
+                        SpielPosition temp = {position.x, y2};
+                        this->setFarbe(temp, spieler);
+                    }
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    //pruefe diagonal oben rechts
+    {
+        bool hatGegner = false;
+        int x = position.x+1;
+        int y = position.y+1;
+        while (x < this->getGroesse() && y < this->getGroesse())
+        {
+            SpielPosition platzhalter = {x,y};
+            Zellen_Farbe platzhalterFarbe = this->getFarbe(platzhalter);
+            if (platzhalterFarbe == LEER)
+                break;
+            else if (platzhalterFarbe == gegner)
+                hatGegner = true;
+            else
+            {
+                if (hatGegner)
+                {
+                    zulaessig = true;
+                    if (fuehreAus)
+                    {
+                    int x2 = position.x;
+                    int y2 = position.y;
+                    while (x2 <= platzhalter.x && y2 <= platzhalter.y)
+                    {
+
+                                SpielPosition temp = {x2, y2};
+                                this->setFarbe(temp, spieler);
+                                x2++;
+                                y2++;
+
+
+                    }
+                    }
+
+                }
+                break;
+            }
+            x++;
+            y++;
+        }
+    }
+
+    //pruefe diagonal oben links
+    {
+        bool hatGegner = false;
+        int x = position.x-1;
+        int y = position.y+1;
+        while (x >= 0 && y < this->getGroesse())
+        {
+            SpielPosition platzhalter = {x,y};
+            Zellen_Farbe platzhalterFarbe = this->getFarbe(platzhalter);
+            if (platzhalterFarbe == LEER)
+                break;
+            else if (platzhalterFarbe == gegner)
+                hatGegner = true;
+            else
+            {
+                if (hatGegner)
+                {
+                    zulaessig = true;
+                    if (fuehreAus)
+                    {
+                    int x2 = position.x;
+                    int y2 = position.y;
+                    while (x2 >= platzhalter.x && y2 <= platzhalter.y)
+                    {
+
+                                SpielPosition temp = {x2, y2};
+                                this->setFarbe(temp, spieler);
+                                x2--;
+                                y2++;
+
+
+                    }
+                    }
+
+                }
+                break;
+            }
+            x--;
+            y++;
+        }
+    }
+
+    //prüfe diagonal rechts unten
+    {
+        bool hatGegner = false;
+        int x = position.x+1;
+        int y = position.y-1;
+        while (x < this->getGroesse()&& y >= 0)
+        {
+            SpielPosition platzhalter = {x,y};
+            Zellen_Farbe platzhalterFarbe = this->getFarbe(platzhalter);
+            if (platzhalterFarbe == LEER)
+                break;
+            else if (platzhalterFarbe == gegner)
+                hatGegner = true;
+            else
+            {
+                if (hatGegner)
+                {
+                    zulaessig = true;
+                    if (fuehreAus)
+                    {
+                    int x2 = position.x;
+                    int y2 = position.y;
+                    while (x2 <= platzhalter.x && y2 >= platzhalter.y)
+                    {
+
+                                SpielPosition temp = {x2, y2};
+                                this->setFarbe(temp, spieler);
+                                x2++;
+                                y2--;
+
+
+                    }
+                    }
+
+                }
+                break;
+            }
+            x++;
+            y--;
+        }
+    }
+
+    //pruefe diagonal unten links
+    {
+        bool hatGegner = false;
+        int x = position.x-1;
+        int y = position.y-1;
+        while (x >= 0 && y >= 0)
+        {
+            SpielPosition platzhalter = {x,y};
+            Zellen_Farbe platzhalterFarbe = this->getFarbe(platzhalter);
+            if (platzhalterFarbe == LEER)
+                break;
+            else if (platzhalterFarbe == gegner)
+                hatGegner = true;
+            else
+            {
+                if (hatGegner)
+                {
+                    zulaessig = true;
+                    if (fuehreAus)
+                    {
+                    int x2 = position.x;
+                    int y2 = position.y;
+                    while (x2 >= platzhalter.x && y2 >= platzhalter.y)
+                    {
+
+                                SpielPosition temp = {x2, y2};
+                                this->setFarbe(temp, spieler);
+                                x2--;
+                                y2--;
+
+
+                    }
+                    }
+                }
+                break;
+            }
+            x--;
+            y--;
+        }
+    }
+    return zulaessig;
+}
+
+int Spielbrett::zaehleSteine(Zellen_Farbe farbe)
+{
+    int anzahl = 0;
+    SpielPosition pos;
+    for (int x=0; x<this->getGroesse(); x++)
+        for (int y=0; y<this->getGroesse(); y++)
+        {
+            pos = {x,y};
+            if (this->getFarbe(pos) == farbe)
+            anzahl += 1;
+         }
+    return anzahl;
+}
+
+/**
+ * Get brett style (0=Default, 1=Alternativ, 2=Viking)
+ *
+ * @return int
+ */
+int Spielbrett::getBrettstyle()
+{
+    return this->brettStyle;
+}
+
+int Spielbrett::setBrettstyle(int style)
+{
+    this->brettStyle = style;
+}
+
+std::list<Spielbrett::SpielPosition> Spielbrett::getValideZuege(Zellen_Farbe spieler)
+{
+    std::list<SpielPosition> valideZuege;
+    for (int x = 0; x < this->getGroesse(); x++)
+    {
+        for (int y = 0; y < this->getGroesse(); y++)
+        {
+            SpielPosition position = {x, y};
+            if (this->Zug(position, spieler, false));
+            valideZuege.push_back(position);
+        }
+    }
+    return valideZuege;
 }

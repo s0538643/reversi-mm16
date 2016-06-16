@@ -16,8 +16,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>240</y>
+     <x>50</x>
+     <y>250</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -29,7 +29,7 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="brettgroesse">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -58,7 +58,10 @@
     <number>64</number>
    </property>
    <property name="singleStep">
-    <number>2</number>
+    <number>8</number>
+   </property>
+   <property name="tracking">
+    <bool>true</bool>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -67,10 +70,10 @@
     <enum>QSlider::NoTicks</enum>
    </property>
    <property name="tickInterval">
-    <number>0</number>
+    <number>4</number>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="schwierigkeit">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -107,6 +110,60 @@
    </property>
    <property name="text">
     <string>8</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="brettstyle">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>150</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Brettstyle</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>150</y>
+     <width>85</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <item>
+    <property name="text">
+     <string>Normal</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Style2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Viking</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QDialogButtonBox" name="savebuttonBox">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>210</y>
+     <width>176</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Save</set>
    </property>
   </widget>
  </widget>

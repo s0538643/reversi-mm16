@@ -33,7 +33,7 @@ class Spielbrett
     void setFarbe(SpielPosition a, Zellen_Farbe);
     int zaehleSteine(Zellen_Farbe farbe);
     int getBrettstyle();
-    int setBrettstyle(int style);
+    void setBrettstyle(int style);
     std::list<SpielPosition> getValideZuege(Zellen_Farbe spieler);
 
     Zellen_Farbe * farbe;

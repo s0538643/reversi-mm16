@@ -118,7 +118,7 @@ int Settings::getStyle()
     return this->ui->comboBox->currentIndex();
 }
 
-void Settings::on_savebuttonBox_clicked(QAbstractButton *button)
+void Settings::on_savebuttonBox_clicked()
 {
     this->close();
 }

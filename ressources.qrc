@@ -2,6 +2,8 @@
     <qresource prefix="/images">
         <file>styles/Black_Viking.png</file>
         <file>styles/White_Viking.png</file>
+        <file>styles/eye-blue.png</file>
+        <file>styles/eye-red.png</file>
     </qresource>
     <qresource prefix="/sounds"/>
     <qresource prefix="/languages"/>

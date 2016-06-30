@@ -22,9 +22,21 @@ void BrettWidget::paintEvent(QPaintEvent *)
     QColor weisserStein;
     QColor schwarzerStein;
 
-    std::list<Spielbrett::SpielPosition> valideZuege {};
+    std::list<Spielbrett::SpielPosition> valideZuege {}; //hier wird auf gueltige zuege geprueft
 
     valideZuege = this->brett.getValideZuege(this->Spielerfarbe);
+
+    if (valideZuege.empty())
+    {
+
+
+        this->Spielerfarbe = this->brett.getGegnerFarbe(this->Spielerfarbe);
+
+        valideZuege = this->brett.getValideZuege(this->Spielerfarbe); //Spiel endet wenn beide Spieler in folge passen
+        if (valideZuege.empty())
+            qDebug("Spiel endet"); //HIER SPIEL ENDE EINFÜGEN
+    }
+
 
 
     int style = this->brett.getBrettstyle();
@@ -74,10 +86,23 @@ void BrettWidget::paintEvent(QPaintEvent *)
                         break;
                     }
 
+
+
+                    case 1 :
+                    {
+                        QImage image;
+                        image.load(":/images/styles/eye-blue.png");
+                        painter.drawImage(cellSize*x,cellSize*y, image.scaled(cellSize/1, cellSize/1).mirrored());
+                        break;
+                    }
+
                     case 2 :
-                    QImage image;
-                    image.load(":/images/styles/White_Viking.png");
-                    painter.drawImage(cellSize*x + cellSize/5.5,cellSize*y + cellSize/5.5, image.scaled(cellSize/1.5, cellSize/1.5).mirrored());
+                    {
+                        QImage image;
+                        image.load(":/images/styles/White_Viking.png");
+                        painter.drawImage(cellSize*x,cellSize*y, image.scaled(cellSize/1, cellSize/1).mirrored());
+                    break;
+                    }
                 }
 
 
@@ -101,12 +126,38 @@ void BrettWidget::paintEvent(QPaintEvent *)
                         break;
                     }
 
+                    case 1 :
+                    {
+                        QImage image;
+                        image.load(":/images/styles/eye-red.png");
+                        painter.drawImage(cellSize*x,cellSize*y, image.scaled(cellSize/1, cellSize/1).mirrored());
+                        break;
+                    }
+
                     case 2 :
-                    QImage image;
-                    image.load(":/images/styles/Black_Viking.png");
-                    painter.drawImage(cellSize*x + cellSize/5.5,cellSize*y + cellSize/5.5, image.scaled(cellSize/1.5, cellSize/1.5).mirrored());
+                    {
+                        QImage image;
+                        image.load(":/images/styles/Black_Viking.png");
+                        painter.drawImage(cellSize*x,cellSize*y, image.scaled(cellSize/1, cellSize/1).mirrored());
+                        break;
+                    }
                 }
         }
+    }
+
+    if (this->Spielerfarbe == Spielbrett::SCHWARZ)
+    {
+        painter.setPen(schwarzerStein);
+        painter.setBrush(QBrush(schwarzerStein));
+    }
+    else
+    {
+        painter.setPen(weisserStein);
+        painter.setBrush(QBrush(weisserStein));
+    }
+
+    for (std::list<Spielbrett::SpielPosition>::const_iterator iterator = valideZuege.begin(), end = valideZuege.end(); iterator != end; ++iterator) {
+        painter.drawEllipse(QPoint(cellSize*iterator->x + cellSize/2,cellSize*iterator->y + cellSize/2),cellSize/6-6,cellSize/6-6);
     }
 }
 

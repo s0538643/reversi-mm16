@@ -410,21 +410,22 @@ int Spielbrett::getBrettstyle()
     return this->brettStyle;
 }
 
-int Spielbrett::setBrettstyle(int style)
+void Spielbrett::setBrettstyle(int style)
 {
     this->brettStyle = style;
 }
 
 std::list<Spielbrett::SpielPosition> Spielbrett::getValideZuege(Zellen_Farbe spieler)
 {
-    std::list<SpielPosition> valideZuege;
+    std::list<SpielPosition> valideZuege = {};
     for (int x = 0; x < this->getGroesse(); x++)
     {
         for (int y = 0; y < this->getGroesse(); y++)
         {
             SpielPosition position = {x, y};
-            if (this->Zug(position, spieler, false));
-            valideZuege.push_back(position);
+            if (this->Zug(position, spieler, false))
+                valideZuege.push_back(position);
+
         }
     }
     return valideZuege;

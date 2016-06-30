@@ -48,7 +48,7 @@ private slots:
 
 //Für Auswahl der Styles
 
-   void on_savebuttonBox_clicked(QAbstractButton *button);
+   void on_savebuttonBox_clicked();
 
 private:
    void writeSettings();

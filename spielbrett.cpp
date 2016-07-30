@@ -1,17 +1,21 @@
 #include "spielbrett.h"
 #include <QDebug>
+#include "minimax.h"
 
 Spielbrett::Spielbrett()
 {
     this->groesse = 8;
+    this->spielEnde = false;
 }
 
 
-void Spielbrett::erzeugeBrett(int groesse, int style)
+void Spielbrett::erzeugeBrett(int groesse, int style, int schwierigkeit)
 {
 
+    this->setSpielEnde(false);
     this->setGroesse(groesse);
     this->setBrettstyle(style);
+    this->setSchwierigkeit(schwierigkeit);
     this->farbe = new Zellen_Farbe[this->getGroesse()*this->getGroesse()];
     SpielPosition position;
     for (int i=0; i<groesse; i++)
@@ -108,7 +112,7 @@ bool Spielbrett::Zug(SpielPosition position, Zellen_Farbe spieler, bool fuehreAu
             else if (platzhalterFarbe == gegner)
                 hatGegner = true;
             //Found friendly cell
-            else
+            else if (platzhalterFarbe == spieler)
             {
                 if (hatGegner)
                 {
@@ -138,7 +142,7 @@ bool Spielbrett::Zug(SpielPosition position, Zellen_Farbe spieler, bool fuehreAu
                 break;
             else if (platzhalterFarbe == gegner)
                 hatGegner = true;
-            else
+            else if (platzhalterFarbe == spieler)
             {
                 if (hatGegner)
                 {
@@ -168,7 +172,7 @@ bool Spielbrett::Zug(SpielPosition position, Zellen_Farbe spieler, bool fuehreAu
                 break;
             else if (platzhalterFarbe == gegner)
                 hatGegner = true;
-            else
+            else if (platzhalterFarbe == spieler)
             {
                 if (hatGegner)
                 {
@@ -198,7 +202,7 @@ bool Spielbrett::Zug(SpielPosition position, Zellen_Farbe spieler, bool fuehreAu
                 break;
             else if (platzhalterFarbe == gegner)
                 hatGegner = true;
-            else
+            else if (platzhalterFarbe == spieler)
             {
                 if (hatGegner)
                 {
@@ -230,7 +234,7 @@ bool Spielbrett::Zug(SpielPosition position, Zellen_Farbe spieler, bool fuehreAu
                 break;
             else if (platzhalterFarbe == gegner)
                 hatGegner = true;
-            else
+            else if (platzhalterFarbe == spieler)
             {
                 if (hatGegner)
                 {
@@ -272,7 +276,7 @@ bool Spielbrett::Zug(SpielPosition position, Zellen_Farbe spieler, bool fuehreAu
                 break;
             else if (platzhalterFarbe == gegner)
                 hatGegner = true;
-            else
+            else if (platzhalterFarbe == spieler)
             {
                 if (hatGegner)
                 {
@@ -314,7 +318,7 @@ bool Spielbrett::Zug(SpielPosition position, Zellen_Farbe spieler, bool fuehreAu
                 break;
             else if (platzhalterFarbe == gegner)
                 hatGegner = true;
-            else
+            else if (platzhalterFarbe == spieler)
             {
                 if (hatGegner)
                 {
@@ -356,7 +360,7 @@ bool Spielbrett::Zug(SpielPosition position, Zellen_Farbe spieler, bool fuehreAu
                 break;
             else if (platzhalterFarbe == gegner)
                 hatGegner = true;
-            else
+            else if (platzhalterFarbe == spieler)
             {
                 if (hatGegner)
                 {
@@ -429,4 +433,66 @@ std::list<Spielbrett::SpielPosition> Spielbrett::getValideZuege(Zellen_Farbe spi
         }
     }
     return valideZuege;
+}
+
+void Spielbrett::setSpielEnde(bool ende)
+{
+    this->spielEnde = ende;
+}
+
+bool Spielbrett::getSpielEnde()
+{
+    return this->spielEnde;
+}
+
+Spielbrett::Zellen_Farbe Spielbrett::getSieger()
+{
+    if (this->zaehleSteine(SCHWARZ) > this->zaehleSteine(WEISS))
+        return SCHWARZ;
+    else if (this->zaehleSteine(WEISS) > this->zaehleSteine(SCHWARZ))
+        return WEISS;
+    else
+        return LEER;
+}
+
+
+
+Spielbrett::Zellen_Farbe Spielbrett::getSpielerFarbe()
+{
+    return this->Spielerfarbe;
+}
+
+void Spielbrett::setSpielerfarbe(Spielbrett::Zellen_Farbe farbe)
+{
+    this->Spielerfarbe = farbe;
+}
+
+Spielbrett::SpielPosition Spielbrett::getBestMove()
+{
+    return this->bestMove;
+}
+
+void Spielbrett::setBestMove(Spielbrett::SpielPosition a)
+{
+    this->bestMove = a;
+}
+
+void Spielbrett::calculateBestMove(Zellen_Farbe player,int difficulty)
+{
+
+    Spielbrett board;
+    board = *this;
+    Minimax minimax(board, difficulty);
+    minimax.search();
+    this->bestMove = minimax.getBestMove();
+}
+
+void Spielbrett::setSchwierigkeit(int schwierigkeit)
+{
+    this->schwierigkeit = schwierigkeit;
+}
+
+int Spielbrett::getSchwierigkeit()
+{
+    return this->schwierigkeit;
 }

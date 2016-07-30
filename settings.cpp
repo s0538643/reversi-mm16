@@ -1,7 +1,7 @@
 #include "settings.h"
 #include "ui_settings.h"
 #include <QSettings>
-#include <QAbstractButton>
+#include <QtWidgets/QAbstractButton>
 #include <QDebug>
 
 void Settings::on_horizontalSlider_sliderMoved(int position)
@@ -16,21 +16,12 @@ int Settings::getFeldGroesse()
     return this->ui->horizontalSlider->value();
 }
 
-void Settings::on_horizontalSlider_sliderReleased()
+
+
+void Settings::on_horizontalSlider_2_valueChanged(int value)
 {
-    while (this->ui->horizontalSlider->value() % 4 != 0)
-     {
-         this->ui->horizontalSlider->setValue(this->ui->horizontalSlider->value() + 1);
-     }
-
-
+    this->ui->schwierigkeit_2->setText(QString::number(value));
 }
-
-void Settings::on_horizontalSlider_valueChanged(int value)
-{
-    this->ui->feldgroesse->setText(QString::number(value));
-}
-
 
 /** Settings Part für Styles und Language***/
 
@@ -118,7 +109,15 @@ int Settings::getStyle()
     return this->ui->comboBox->currentIndex();
 }
 
-void Settings::on_savebuttonBox_clicked()
+
+
+
+void Settings::on_comboBox_currentIndexChanged(int index)
 {
-    this->close();
+    emit this->settingsUpdated(index);
+}
+
+int Settings::getSchwierigkeit()
+{
+    return this->ui->horizontalSlider_2->value();
 }

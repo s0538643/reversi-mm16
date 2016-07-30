@@ -1,6 +1,6 @@
 #include <QtTest/QtTest>
 
-#include "../spielbrett.h"
+#include "spielbrett.h"
 
 class test : public QObject
 {
@@ -10,7 +10,7 @@ private slots:
     void initTestCase()
     {
       this->brett = new Spielbrett();
-      brett->erzeugeBrett(8);
+      brett->erzeugeBrett(8, 1, 0);
 	}
 
 	void TestGetGroesse()
@@ -23,14 +23,14 @@ private slots:
         Spielbrett::SpielPosition position;
         position.x = 4;
         position.y = 2;
-        QVERIFY(this->brett->Zug(position, Spielbrett::SCHWARZ));
+        QVERIFY(this->brett->Zug(position, Spielbrett::SCHWARZ, 1));
 
 
         position.x = 4;
         position.y = 3;
 
         QVERIFY(this->brett->istZelleBelegt(position));
-        QVERIFY(this->brett->Zug(position, Spielbrett::SCHWARZ)==false);
+        QVERIFY(this->brett->Zug(position, Spielbrett::SCHWARZ, 1)==false);
 
     }
 

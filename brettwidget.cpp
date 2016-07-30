@@ -1,14 +1,17 @@
 #include "brettwidget.h"
 
+
 #include <QPainter>
 #include <QObject>
 #include <stdio.h>
 #include <QDebug>
+#include "minimax.h"
 
 BrettWidget::BrettWidget(QWidget *parent)
     : QWidget(parent, Qt::Window)
 
 {
+    this->brett.setSpielerfarbe(Spielbrett::WEISS);
 }
 
 void BrettWidget::paintEvent(QPaintEvent *)
@@ -24,20 +27,23 @@ void BrettWidget::paintEvent(QPaintEvent *)
 
     std::list<Spielbrett::SpielPosition> valideZuege {}; //hier wird auf gueltige zuege geprueft
 
-    valideZuege = this->brett.getValideZuege(this->Spielerfarbe);
+    valideZuege = this->brett.getValideZuege(this->brett.getSpielerFarbe());
 
-    if (valideZuege.empty())
+    if(valideZuege.empty())
     {
-
-
-        this->Spielerfarbe = this->brett.getGegnerFarbe(this->Spielerfarbe);
-
-        valideZuege = this->brett.getValideZuege(this->Spielerfarbe); //Spiel endet wenn beide Spieler in folge passen
-        if (valideZuege.empty())
-            qDebug("Spiel endet"); //HIER SPIEL ENDE EINFÜGEN
+        valideZuege = this->brett.getValideZuege(this->brett.getGegnerFarbe(this->brett.getSpielerFarbe()));
+        if(valideZuege.empty())
+        {
+            this->brett.setSpielEnde(true);
+            emit this->brettVeraendert();
+        }
+        else
+        {
+        this->brett.setSpielerfarbe(this->brett.getGegnerFarbe(this->brett.getSpielerFarbe()));
+        this->KIZug();
+        valideZuege = this->brett.getValideZuege(this->brett.getSpielerFarbe());
+        }
     }
-
-
 
     int style = this->brett.getBrettstyle();
     rasterFarbe = Qt::black;
@@ -145,7 +151,7 @@ void BrettWidget::paintEvent(QPaintEvent *)
         }
     }
 
-    if (this->Spielerfarbe == Spielbrett::SCHWARZ)
+    if (this->brett.getSpielerFarbe() == Spielbrett::SCHWARZ)
     {
         painter.setPen(schwarzerStein);
         painter.setBrush(QBrush(schwarzerStein));
@@ -182,15 +188,80 @@ void BrettWidget::mouseReleaseEvent(QMouseEvent *event)
     int yCell = transformedPos.y() / cellSize;
 
     const Spielbrett::SpielPosition boardPosition = {xCell,yCell};
-    if(this->brett.Zug(boardPosition, this->Spielerfarbe, true))
+
+    emit this->zelleGeklickt(boardPosition);
+    this->update();
+
+    if (this->brett.getSpielerFarbe() == Spielbrett::WEISS && this->brett.getSchwierigkeit() == 0 && this->brett.getSpielEnde() == false)
     {
-        this->Spielerfarbe = this->brett.getGegnerFarbe(this->Spielerfarbe);
+        QMediaPlayer * weiss = new QMediaPlayer();
+        weiss->setMedia(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/audio/white.wav"));
+        weiss->play();
     }
-    /* else liefere Feedback über unzulässigen Zug
-     *
-     */
-    QString a = QString::number((this->brett.zaehleSteine(Spielbrett::WEISS)));
-    qDebug() << a;
+    if (this->brett.getSpielerFarbe() == Spielbrett::SCHWARZ && this->brett.getSchwierigkeit() == 0 && this->brett.getSpielEnde() == false)
+    {
+        QMediaPlayer * schwarz = new QMediaPlayer();
+        schwarz->setMedia(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/audio/black.wav"));
+        schwarz->play();
+    }
+
+}
+
+void BrettWidget::updatedStyle(int style)
+{
+    this->brett.setBrettstyle(style);
     this->update();
 }
+
+void BrettWidget::handleZelleGeklickt(Spielbrett::SpielPosition position)
+{
+    if (this->brett.Zug(position, this->brett.getSpielerFarbe(), 1) == true)
+    {
+        emit this->brettVeraendert();
+
+
+        this->zugAusgefuehrt();
+
+    }
+    else {
+
+        QMediaPlayer * fail = new QMediaPlayer();
+        fail->setMedia(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/audio/fail.wav"));
+        fail ->play();
+    }
+
+
+}
+
+void BrettWidget::handleZugAusgefuehrt()
+{
+
+    this->brett.setSpielerfarbe(this->brett.getGegnerFarbe(this->brett.getSpielerFarbe()));
+
+    if (this->brett.getSchwierigkeit() != 0)
+    {
+        this->KIZug();
+    }
+}
+
+void BrettWidget::KIZug()
+{
+    //this->brett.setSpielerfarbe(Spielbrett::SCHWARZ);
+    this->brett.calculateBestMove(this->brett.getSpielerFarbe(), this->brett.getSchwierigkeit());
+    QVariant var(this->brett.getBestMove().x);
+        QString stringValue = var.toString();
+        qDebug() << "x-Wert:"+stringValue;
+
+    QVariant vaar(this->brett.getBestMove().y);
+            QString stringValuee = vaar.toString();
+            qDebug() << "y-Wert:"+stringValuee;
+
+
+    if( this->brett.Zug(this->brett.getBestMove(), this->brett.getSpielerFarbe(), 1))
+    {
+        this->brett.setSpielerfarbe(this->brett.getGegnerFarbe(this->brett.getSpielerFarbe()));
+    }
+}
+
+
 

@@ -17,13 +17,15 @@ SOURCES += main.cpp\
     settings.cpp \
     brettwidget.cpp \
     spielbrett.cpp \
-    spielwindow.cpp
+    spielwindow.cpp \
+    minimax.cpp
 
 HEADERS  += mainwindow.h \
     settings.h \
     brettwidget.h \
     spielbrett.h \
-    spielwindow.h
+    spielwindow.h \
+    minimax.h
 
 FORMS    += mainwindow.ui \
     settings.ui

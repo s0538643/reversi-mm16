@@ -1,11 +1,11 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <QDialog>
+#include <QtWidgets/QDialog>
 #include <string>
 #include <QSettings>
 #include <QTranslator>
-#include <QAbstractButton>
+#include <QtWidgets/QAbstractButton>
 
 namespace Ui {
 class Settings;
@@ -29,32 +29,57 @@ public:
     ~Settings();
     GameSettings gamesettings()const;
 
+    /** Liefert den Style, der im Optionsmenu ausgewehlt ist.
+     * @brief getStyle
+     * @return Der gewaehlte Style als integer.
+     */
     int getStyle();
 
+    /** Liefert die Feldgroesse, die im Optionsmenu ausgewaehlt ist.
+     * @brief getFeldGroesse
+     * @return Die Feldgroesse als integer
+     */
     int getFeldGroesse();
 
+    /** Liefert die im Optionsmenu festgelegte Schwierigkeit der KI.
+     * @brief getSchwierigkeit
+     * @return Die Schwierigkeit des KI Gegners.
+     */
+    int getSchwierigkeit();
 
+signals:
+    /** Signalisiert dass die Styleoptionen aktualisiert wurden
+     * @brief settingsUpdated
+     * @param style Der gewaehlte style.
+     */
+    void settingsUpdated(int style);
 
 private slots:
-
-
-
-
+    /** Setzt den zum Feldgroessen Slider gehoerigen Text auf den aktuellen Wert des Sliders.
+    * @brief on_horizontalSlider_sliderMoved
+    * @param position Der Wert des Sliders.
+    */
    void on_horizontalSlider_sliderMoved(int position);
 
-   void on_horizontalSlider_sliderReleased();
-
-   void on_horizontalSlider_valueChanged(int value);
+   /** Setzt den zum Schwierigkeits Slider gehoerigen Text auf den aktuellen Wert des Sliders.
+   * @brief on_horizontalSlider_2_valueChanged
+   * @param value Der Wert des Sliders.
+   */
+   void on_horizontalSlider_2_valueChanged(int value);
 
 //Für Auswahl der Styles
 
-   void on_savebuttonBox_clicked();
+   /** Emitiert Signal wenn Style gewechselt wird.
+    * @brief on_comboBox_currentIndexChanged
+    * @param index Der Style als integer.
+    */
+   void on_comboBox_currentIndexChanged(int index);
 
 private:
-   void writeSettings();
-   void readSettings();
-   void applySettings();
-   GameSettings currentSettings;
+    void writeSettings();
+    void readSettings();
+    void applySettings();
+    GameSettings currentSettings;
     Ui::Settings *ui;
 };
 

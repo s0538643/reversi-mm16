@@ -1,9 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "settings.h"
-#include "spielbrett.h"
-#include "brettwidget.h"
-#include "spielwindow.h"
 #include <QPainter>
 #include <QMediaPlayer>
 #include <QSound>
@@ -40,16 +36,30 @@ void MainWindow::on_startButton_clicked()
     start ->setMedia(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/audio/Barbarian-Chant.wav"));
       start ->play();
 
-    SpielWindow *spielwindow = new SpielWindow();
-    spielwindow->brettwidget->brett.erzeugeBrett(this->settings.getFeldGroesse(), this->settings.getStyle());
+
+    if (spielwindow != NULL)
+    {
+          spielwindow->close();
+          spielwindow->brettwidget->brett.setSpielerfarbe(Spielbrett::WEISS);
+    }
+
+
+
+    spielwindow->brettwidget->brett.erzeugeBrett(this->settings.getFeldGroesse(), this->settings.getStyle(), this->settings.getSchwierigkeit());
+    spielwindow->brettwidget->brett.setBestMove({0,0});
+    spielwindow->brettwidget->brett.setSpielEnde(false);
+
     spielwindow->resize(800, 800);
     spielwindow->show();
 
-    /*if (brettwidget != NULL)
-        brettwidget->close();
-    brettwidget->brett.erzeugeBrett(this->settings.getFeldGroesse(), this->settings.getStyle());
-    brettwidget->resize(500, 500);
-    brettwidget->show();*/
+
+
+
+    QObject::connect(spielwindow->brettwidget, SIGNAL(brettVeraendert()), spielwindow, SLOT(updateLabels()));
+    QObject::connect(&this->settings, SIGNAL(settingsUpdated(int)), spielwindow->brettwidget, SLOT(updatedStyle(int)));
+    QObject::connect(spielwindow->brettwidget, SIGNAL(zelleGeklickt(Spielbrett::SpielPosition)), spielwindow->brettwidget, SLOT(handleZelleGeklickt(Spielbrett::SpielPosition)));
+    QObject::connect(spielwindow->brettwidget, SIGNAL(zugAusgefuehrt()), spielwindow->brettwidget, SLOT(handleZugAusgefuehrt()));
+
 
 
 

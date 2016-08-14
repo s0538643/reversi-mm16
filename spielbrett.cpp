@@ -9,13 +9,14 @@ Spielbrett::Spielbrett()
 }
 
 
-void Spielbrett::erzeugeBrett(int groesse, int style, int schwierigkeit)
+void Spielbrett::erzeugeBrett(int groesse, int style, int schwierigkeit, Zellen_Farbe spielerfarbe)
 {
 
     this->setSpielEnde(false);
     this->setGroesse(groesse);
     this->setBrettstyle(style);
     this->setSchwierigkeit(schwierigkeit);
+    this->setSpielerfarbe(spielerfarbe);
     this->farbe = new Zellen_Farbe[this->getGroesse()*this->getGroesse()];
     SpielPosition position;
     for (int i=0; i<groesse; i++)
@@ -479,7 +480,7 @@ void Spielbrett::setBestMove(Spielbrett::SpielPosition a)
 
 void Spielbrett::calculateBestMove(Zellen_Farbe player,int difficulty)
 {
-
+    player;
     Spielbrett board;
     board = *this;
     Minimax minimax(board, difficulty);

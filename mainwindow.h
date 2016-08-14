@@ -18,9 +18,13 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    /** Liefert die gewaehlte Sprache als Integerwert.
+     * @brief getSprache
+     * @return Die gewaehlte Sprache
+     */
+    int getSprache();
 
 
-private:
 
 
 private slots:
@@ -37,12 +41,19 @@ private slots:
      * @brief on_startButton_clicked
      */
     void on_startButton_clicked();
+    /** Slot fuer das aendern der Sprache.
+     * @brief on_comboBox_currentIndexChanged
+     * @param index
+     */
+    void on_comboBox_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow *ui;
     BrettWidget *brettwidget  = new BrettWidget(this);
-    SpielWindow *spielwindow  = new SpielWindow();
+    SpielWindow *spielwindow;
     Settings settings;
+    int sprache;
+    QMediaPlayer * start;
 
 
 };

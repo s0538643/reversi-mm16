@@ -11,7 +11,7 @@ BrettWidget::BrettWidget(QWidget *parent)
     : QWidget(parent, Qt::Window)
 
 {
-    this->brett.setSpielerfarbe(Spielbrett::WEISS);
+    this->brett.setSpielerfarbe(Spielbrett::SCHWARZ);
 }
 
 void BrettWidget::paintEvent(QPaintEvent *)
@@ -27,23 +27,9 @@ void BrettWidget::paintEvent(QPaintEvent *)
 
     std::list<Spielbrett::SpielPosition> valideZuege {}; //hier wird auf gueltige zuege geprueft
 
-    valideZuege = this->brett.getValideZuege(this->brett.getSpielerFarbe());
 
-    if(valideZuege.empty())
-    {
-        valideZuege = this->brett.getValideZuege(this->brett.getGegnerFarbe(this->brett.getSpielerFarbe()));
-        if(valideZuege.empty())
-        {
-            this->brett.setSpielEnde(true);
-            emit this->brettVeraendert();
-        }
-        else
-        {
-        this->brett.setSpielerfarbe(this->brett.getGegnerFarbe(this->brett.getSpielerFarbe()));
-        this->KIZug();
-        valideZuege = this->brett.getValideZuege(this->brett.getSpielerFarbe());
-        }
-    }
+    valideZuege = this->brett.getValideZuege(this->brett.getSpielerFarbe());
+    emit checkPass(valideZuege);
 
     int style = this->brett.getBrettstyle();
     rasterFarbe = Qt::black;
@@ -217,10 +203,9 @@ void BrettWidget::handleZelleGeklickt(Spielbrett::SpielPosition position)
 {
     if (this->brett.Zug(position, this->brett.getSpielerFarbe(), 1) == true)
     {
-        emit this->brettVeraendert();
-
 
         this->zugAusgefuehrt();
+
 
     }
     else {
@@ -235,8 +220,9 @@ void BrettWidget::handleZelleGeklickt(Spielbrett::SpielPosition position)
 
 void BrettWidget::handleZugAusgefuehrt()
 {
-
     this->brett.setSpielerfarbe(this->brett.getGegnerFarbe(this->brett.getSpielerFarbe()));
+
+    emit this->brettVeraendert();
 
     if (this->brett.getSchwierigkeit() != 0)
     {
@@ -246,7 +232,7 @@ void BrettWidget::handleZugAusgefuehrt()
 
 void BrettWidget::KIZug()
 {
-    //this->brett.setSpielerfarbe(Spielbrett::SCHWARZ);
+   // this->brett.setSpielerfarbe(Spielbrett::SCHWARZ);
     this->brett.calculateBestMove(this->brett.getSpielerFarbe(), this->brett.getSchwierigkeit());
     QVariant var(this->brett.getBestMove().x);
         QString stringValue = var.toString();
@@ -260,8 +246,26 @@ void BrettWidget::KIZug()
     if( this->brett.Zug(this->brett.getBestMove(), this->brett.getSpielerFarbe(), 1))
     {
         this->brett.setSpielerfarbe(this->brett.getGegnerFarbe(this->brett.getSpielerFarbe()));
+        emit this->brettVeraendert();
     }
+
 }
 
-
+void BrettWidget::handleCheckPass(std::list<Spielbrett::SpielPosition> valideZuege)
+{
+    if(valideZuege.empty())
+    {
+        valideZuege = this->brett.getValideZuege(this->brett.getGegnerFarbe(this->brett.getSpielerFarbe()));
+        if(valideZuege.empty())
+        {
+            this->brett.setSpielEnde(true);
+            emit this->brettVeraendert();
+        }
+        else
+        {
+            this->zugAusgefuehrt();
+            update();
+        }
+}
+}
 

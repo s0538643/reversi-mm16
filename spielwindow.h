@@ -7,6 +7,7 @@
 #include <QMediaPlayer>
 #include <QSound>
 #include <QCoreApplication>
+#include <string>
 
 class QLabel;
 
@@ -15,7 +16,9 @@ class SpielWindow : public QWidget
     Q_OBJECT
 public:
     SpielWindow();
+    SpielWindow(QString name1, QString name2, Spielbrett::Zellen_Farbe spielerfarbe, int sprache);
     BrettWidget *brettwidget;
+    ~SpielWindow();
 
 private slots:
     /** Aktualisiert alle Label des Spielwindows.
@@ -35,6 +38,9 @@ private:
     QLabel *weissePunkte;
     QLabel *schwarzePunkte;
     QLabel *Sieger;
+    QString weissname;
+    QString schwarzname;
+    int sprache;
 
 
 };

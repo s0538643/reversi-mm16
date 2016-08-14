@@ -26,8 +26,9 @@ class Spielbrett
      * @param groesse Die Feldgroesse des Spielfeldes
      * @param style Der Style der Spielsteine.
      * @param schwierigkeit Die Schwierigkeit des KI Gegners.
+     * @param spielerfarbe Die Spielerfarbe des Spielers, der am Zug ist.
      */
-    void erzeugeBrett(int groesse, int style, int schwierigkeit);
+    void erzeugeBrett(int groesse, int style, int schwierigkeit, Zellen_Farbe spielerfarbe);
 
     /** Legt die Groesse des Spielfeldes fest.
      * @brief setGroesse

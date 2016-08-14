@@ -41,12 +41,28 @@ public:
      */
     int getFeldGroesse();
 
+    int getSpielerfarbe();
+
     /** Liefert die im Optionsmenu festgelegte Schwierigkeit der KI.
      * @brief getSchwierigkeit
      * @return Die Schwierigkeit des KI Gegners.
      */
     int getSchwierigkeit();
-
+    /** Liefert den Namen des weissen Spielers
+     * @brief getName1
+     * @return Der Name des weissen Spielers.
+     */
+    QString getName1();
+    /** Liefert den Namen des schwarzen Spielers
+     * @brief getName2
+     * @return Der Name des schwarzen Spielers.
+     */
+    QString getName2();
+    /** Aendert die Beschriftung des Optionsmenues abhaengig von der gewaehlten Sprache.
+     * @brief sprache
+     * @param sprache die gewaehlte sprache
+     */
+    void sprache(int sprache);
 signals:
     /** Signalisiert dass die Styleoptionen aktualisiert wurden
      * @brief settingsUpdated
@@ -74,6 +90,8 @@ private slots:
     * @param index Der Style als integer.
     */
    void on_comboBox_currentIndexChanged(int index);
+
+
 
 private:
     void writeSettings();

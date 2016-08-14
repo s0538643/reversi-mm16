@@ -44,6 +44,8 @@ signals:
      * @brief zugAusgefuehrt
      */
     void zugAusgefuehrt();
+
+    void checkPass(std::list<Spielbrett::SpielPosition> valideZuege);
 private slots:
     /** Wechselt den Style, wenn er im Optionsmenu veraendert wurde und zeichnet das Widget neu.
      * @brief updatedStyle
@@ -59,6 +61,9 @@ private slots:
      * @brief handleZugAusgefuehrt
      */
     void handleZugAusgefuehrt();
+
+    void handleCheckPass(std::list<Spielbrett::SpielPosition> valideZuege);
+
 
 private:
    void paintEvent(QPaintEvent *);

@@ -16,6 +16,10 @@ int Settings::getFeldGroesse()
     return this->ui->horizontalSlider->value();
 }
 
+int Settings::getSpielerfarbe()
+{
+    return this->ui->comboBox_2->currentIndex();
+}
 
 
 void Settings::on_horizontalSlider_2_valueChanged(int value)
@@ -120,4 +124,42 @@ void Settings::on_comboBox_currentIndexChanged(int index)
 int Settings::getSchwierigkeit()
 {
     return this->ui->horizontalSlider_2->value();
+}
+
+QString Settings::getName1()
+{
+    return this->ui->lineEdit->text();
+}
+
+QString Settings::getName2()
+{
+    return this->ui->lineEdit_2->text();
+}
+
+void Settings::sprache(int sprache)
+{
+    if (sprache == 0)
+    {
+        this->ui->brettgroesse->setText("Brettgroesse");
+        this->ui->lineEdit->setText("Weiss");
+        this->ui->lineEdit_2->setText("Schwarz");
+        this->ui->brettstyle->setText("Brettstyle");
+        this->ui->comboBox_2->setItemText(0, "Weiss");
+        this->ui->comboBox_2->setItemText(1, "Schwarz");
+        this->ui->label_2->setText("Spielernamen");
+        this->ui->label->setText("Beginnender Spieler");
+        this->ui->schwierigkeit_beschr->setText("KI Schwierigkeit \n(0 deaktiviert die KI");
+    }
+    else if (sprache == 1)
+    {
+        this->ui->brettgroesse->setText("Board size");
+        this->ui->lineEdit->setText("White");
+        this->ui->lineEdit_2->setText("Black");
+        this->ui->brettstyle->setText("Board style");
+        this->ui->comboBox_2->setItemText(0, "White");
+        this->ui->comboBox_2->setItemText(1, "Black");
+        this->ui->label_2->setText("Player names");
+        this->ui->label->setText("Beginning player");
+        this->ui->schwierigkeit_beschr->setText("AI difficulty \n(0 deactivates the AI");
+    }
 }

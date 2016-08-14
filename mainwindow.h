@@ -49,7 +49,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    BrettWidget *brettwidget  = new BrettWidget(this);
     SpielWindow *spielwindow;
     Settings settings;
     int sprache;

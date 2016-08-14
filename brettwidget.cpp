@@ -7,12 +7,14 @@
 #include <QDebug>
 #include "minimax.h"
 
-BrettWidget::BrettWidget(QWidget *parent)
-    : QWidget(parent, Qt::Window)
+
+BrettWidget::BrettWidget()
 
 {
     this->brett.setSpielerfarbe(Spielbrett::SCHWARZ);
 }
+
+
 
 void BrettWidget::paintEvent(QPaintEvent *)
 {

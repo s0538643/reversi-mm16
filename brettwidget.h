@@ -16,7 +16,7 @@ class BrettWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit BrettWidget(QWidget *parent = 0);
+    BrettWidget();
     void mouseReleaseEvent(QMouseEvent *);
 
 

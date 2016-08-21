@@ -21,7 +21,6 @@ class Spielbrett
 
     Spielbrett();
 
-    Spielbrett(const Spielbrett& spielbrett);
 
     /** Erzeugt das Spielfeld, wie es zu Beginn einer Partie ist.
      * @brief erzeugeBrett

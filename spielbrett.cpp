@@ -11,20 +11,9 @@ Spielbrett::Spielbrett()
     this->spielEnde = false;
     this->schwierigkeit = 0;
     this->brettStyle = 0;
-   //this->farbe = 0;
-   this->Spielerfarbe = Spielbrett::WEISS;
+    this->farbe = new Zellen_Farbe[this->groesse*this->groesse];
+    this->Spielerfarbe = Spielbrett::WEISS;
 }
-
-//!!...Kopierkonstruktor für Spielbrett -> fixed...!!
-Spielbrett::Spielbrett(const Spielbrett &spielbrett)
-{
-    this->groesse = spielbrett.groesse;
-    this->spielEnde = spielbrett.spielEnde;
-    this->schwierigkeit = spielbrett.schwierigkeit;
-    this->brettStyle = spielbrett.brettStyle;
-    this->Spielerfarbe = spielbrett.Spielerfarbe;
-}
-
 
 void Spielbrett::erzeugeBrett(int groesse, int style, int schwierigkeit, Zellen_Farbe spielerfarbe)
 {
@@ -34,6 +23,7 @@ void Spielbrett::erzeugeBrett(int groesse, int style, int schwierigkeit, Zellen_
     this->setBrettstyle(style);
     this->setSchwierigkeit(schwierigkeit);
     this->setSpielerfarbe(spielerfarbe);
+    delete this->farbe;
     this->farbe = new Zellen_Farbe[this->getGroesse()*this->getGroesse()];
     SpielPosition position;
     for (int i=0; i<groesse; i++)
@@ -498,9 +488,7 @@ void Spielbrett::setBestMove(Spielbrett::SpielPosition a)
 void Spielbrett::calculateBestMove(Zellen_Farbe player,int difficulty)
 {
     player;
-    Spielbrett board;
-    board = *this;
-    Minimax minimax(board, difficulty);
+    Minimax minimax(*this, difficulty);
     minimax.search();
     this->bestMove = minimax.getBestMove();
 }

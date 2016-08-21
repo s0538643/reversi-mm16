@@ -32,7 +32,7 @@ FORMS    += mainwindow.ui \
 
 DISTFILES +=
 
-CONFIG += testcase
+CONFIG += testcase c++11
 
 RESOURCES += \
     ressources.qrc

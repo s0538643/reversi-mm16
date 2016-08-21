@@ -21,6 +21,8 @@ class Spielbrett
 
     Spielbrett();
 
+    Spielbrett(const Spielbrett& spielbrett);
+
     /** Erzeugt das Spielfeld, wie es zu Beginn einer Partie ist.
      * @brief erzeugeBrett
      * @param groesse Die Feldgroesse des Spielfeldes
@@ -166,11 +168,13 @@ class Spielbrett
 
 private:
 
-    int groesse;
-    int brettStyle;
-    int schwierigkeit;
-    bool spielEnde;
-    Zellen_Farbe Spielerfarbe;
+    //initialisieren der Membervariablen!
+
+    int groesse ;
+    int brettStyle ;
+    int schwierigkeit ;
+    bool spielEnde ;
+    Zellen_Farbe Spielerfarbe ;
 
     SpielPosition bestMove;
 

@@ -2,10 +2,27 @@
 #include <QDebug>
 #include "minimax.h"
 
+
+
+//!!...Initialize Membervariables -> fixed...!!
 Spielbrett::Spielbrett()
 {
     this->groesse = 8;
     this->spielEnde = false;
+    this->schwierigkeit = 0;
+    this->brettStyle = 0;
+   //this->farbe = 0;
+   this->Spielerfarbe = Spielbrett::WEISS;
+}
+
+//!!...Kopierkonstruktor für Spielbrett -> fixed...!!
+Spielbrett::Spielbrett(const Spielbrett &spielbrett)
+{
+    this->groesse = spielbrett.groesse;
+    this->spielEnde = spielbrett.spielEnde;
+    this->schwierigkeit = spielbrett.schwierigkeit;
+    this->brettStyle = spielbrett.brettStyle;
+    this->Spielerfarbe = spielbrett.Spielerfarbe;
 }
 
 

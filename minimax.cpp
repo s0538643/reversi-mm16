@@ -23,7 +23,7 @@ int Minimax::search()
 
 }
 
-int Minimax::calculate(Spielbrett brett, int tiefe, int alpha, int beta)
+int Minimax::calculate(Spielbrett &brett, int tiefe, int alpha, int beta)
 {
 
     Spielbrett::Zellen_Farbe naechsterSpieler = brett.getSpielerFarbe();
@@ -37,10 +37,10 @@ int Minimax::calculate(Spielbrett brett, int tiefe, int alpha, int beta)
 
     for (std::list<Spielbrett::SpielPosition>::const_iterator iterator = alleZuege.begin(), end = alleZuege.end(); iterator != end; ++iterator)
     {
-       Spielbrett simBrett;
+       Spielbrett *simBrett;
 
        Spielbrett::SpielPosition derzeitigerZug = {iterator->x, iterator->y};
-       simBrett.Zug(derzeitigerZug, naechsterSpieler, 1);
+       simBrett->Zug(derzeitigerZug, naechsterSpieler, 1);
 
         int score = this->calculate(simBrett, tiefe,alpha,beta);
         bestMove = {iterator->x,iterator->y};
@@ -86,7 +86,7 @@ int Minimax::calculate(Spielbrett brett, int tiefe, int alpha, int beta)
     else {
         return beta;
     }
-
+delete simBrett;
 }
 
 

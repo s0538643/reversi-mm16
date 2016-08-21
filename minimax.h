@@ -38,7 +38,7 @@ private:
      * @param beta  Richtwert fuer die bewertung des minimums
      * @return Die Bewertung des guenstigsten Zuges.
      */
-    int calculate(Spielbrett brett, int depth, int alpha, int beta);
+    int calculate(Spielbrett &brett, int depth, int alpha, int beta);
     Spielbrett Wurzel;
     const int maxTiefe;
     Spielbrett::SpielPosition bestMove;
